@@ -9,19 +9,22 @@
 #include <cctype>
 #include <set>
 #include <iomanip>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
 struct Tekstas {
-    map<string, int> zodziai;
+    map<string, set<int>> zodziai;
     set<int> eilutes;
 };
+
 
 string Skyryba(const string& zodis);
 Tekstas TekstoApdor(const string& ivedimoFailas);
 bool Rezultatas(const string& isvedimoFailas, const Tekstas& tekstas);
-
-string getFilas();
+string getFailas();
+bool ZodziaiEilutese(const map<string, set<int>>& zodziuEilutes, const string& isvedimoFailas);
 
 #endif // MYLIB_H
 

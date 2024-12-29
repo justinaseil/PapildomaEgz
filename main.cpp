@@ -1,17 +1,24 @@
 #include "mylib.h"
 
 int main() {
-    string ivedimoFailas = getFilas();
-    string isvedimoFailas = "rezultatai.txt";
+    string ivedimoFailas = getFailas();
+    string isvedimoFailasRezultatai = "zodziu_kiekis.txt";
+    string isvedimoFailasCrossRef = "zodziaieilutese.txt";
 
     Tekstas tekstas = TekstoApdor(ivedimoFailas);
 
-    if (!Rezultatas(isvedimoFailas, tekstas)) {
-        cerr << "Nepavyko sukurti failo '" << isvedimoFailas << "'!" << std::endl;
+    if (!Rezultatas(isvedimoFailasRezultatai, tekstas)) {
+        cerr << "Nepavyko sukurti failo '" << isvedimoFailasRezultatai << "'!" << endl;
         return 1;
     }
 
-    cout << "Rezultatai išsaugoti faile '" << isvedimoFailas << "'!" << std::endl;
+    if (!ZodziaiEilutese(tekstas.zodziai, isvedimoFailasCrossRef)) {
+        cerr << "Nepavyko sukurti cross-reference lentelės failo '" << isvedimoFailasCrossRef << "'!" << endl;
+        return 1;
+    }
+
+    cout << "Rezultatai išsaugoti faile '" << isvedimoFailasRezultatai << "'!" << endl;
+    cout << "Cross-reference lentelė išsaugota faile '" << isvedimoFailasCrossRef << "'!" << endl;
 
     return 0;
 }
