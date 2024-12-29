@@ -16,16 +16,17 @@ using namespace std;
 
 struct Tekstas {
     map<string, set<int>> zodziai;
+    map<string, int> zodziuKiekis;
     set<int> eilutes;
 };
-
 
 string Skyryba(const string& zodis);
 Tekstas TekstoApdor(const string& ivedimoFailas);
 bool Rezultatas(const string& isvedimoFailas, const Tekstas& tekstas);
 string getFailas();
-bool ZodziaiEilutese(const map<string, set<int>>& zodziuEilutes, const string& isvedimoFailas);
+bool ZodziaiEilutese(const map<string, set<int>>& zodziuEilutes, const map<string, int>& zodziuKiekis, const string& isvedimoFailas);
 
 #endif // MYLIB_H
+
 
 

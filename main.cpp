@@ -12,7 +12,7 @@ int main() {
         return 1;
     }
 
-    if (!ZodziaiEilutese(tekstas.zodziai, isvedimoFailasCrossRef)) {
+    if (!ZodziaiEilutese(tekstas.zodziai, tekstas.zodziuKiekis, isvedimoFailasCrossRef)) {
         cerr << "Nepavyko sukurti cross-reference lentelės failo '" << isvedimoFailasCrossRef << "'!" << endl;
         return 1;
     }

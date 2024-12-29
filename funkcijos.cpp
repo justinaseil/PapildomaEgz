@@ -29,11 +29,15 @@ Tekstas TekstoApdor(const string& ivedimoFailas) {
             string isvalytasZodis = Skyryba(zodis);
             if (!isvalytasZodis.empty()) {
                 tekstas.zodziai[isvalytasZodis].insert(lineNumber);
+                tekstas.zodziuKiekis[isvalytasZodis]++;
                 tekstas.eilutes.insert(lineNumber);
             }
         }
     }
     ived.close();
+
+    cout << "Tekste yra " << lineNumber << " eilučių." << endl;
+
     return tekstas;
 }
 
@@ -41,9 +45,9 @@ bool Rezultatas(const string& isvedimoFailas, const Tekstas& tekstas) {
     ofstream isved(isvedimoFailas);
     if (!isved) return false;
 
-    for (const auto& [key, value] : tekstas.zodziai) {
-        if (value.size() > 1) {
-            isved << key << ": " << value.size() << "\n";
+    for (const auto& [key, value] : tekstas.zodziuKiekis) {
+        if (value > 1) {
+            isved << key << ": " << value << "\n";
         }
     }
 
@@ -51,18 +55,54 @@ bool Rezultatas(const string& isvedimoFailas, const Tekstas& tekstas) {
     return true;
 }
 
-bool ZodziaiEilutese(const map<string, set<int>>& zodziuEilutes, const string& isvedimoFailas) {
+bool ZodziaiEilutese(const map<string, set<int>>& zodziuEilutes, const map<string, int>& zodziuKiekis, const string& isvedimoFailas) {
     ofstream isved(isvedimoFailas);
     if (!isved) return false;
 
+    int maxEilute = 0;
     for (const auto& [zodis, eilutes] : zodziuEilutes) {
-        if (eilutes.size() > 1) {
-            isved << zodis << ": ";
-            for (int eilute : eilutes) {
-                isved << eilute << " ";
+        for (int eilute : eilutes) {
+            if (eilute > maxEilute) {
+                maxEilute = eilute;
             }
-            isved << "\n";
         }
+    }
+
+    vector<string> zodziai;
+    for (const auto& [zodis, kiekis] : zodziuKiekis) {
+        if (kiekis > 1) {
+            zodziai.push_back(zodis);
+        }
+    }
+
+    if (zodziai.empty()) {
+        isved << "Nėra žodžių, kurie pasikartoja daugiau nei 1 kartą.\n";
+        return true;
+    }
+
+    for (const auto& zodis : zodziai) {
+        isved << setw(15) << left << zodis;
+    }
+    isved << "\n";
+
+    for (int eilute = 1; eilute <= maxEilute; ++eilute) {
+        isved << setw(10) << left << eilute;
+
+        for (const auto& zodis : zodziai) {
+            auto it = zodziuEilutes.find(zodis);
+            if (it != zodziuEilutes.end() && it->second.count(eilute) > 0) {
+                int count = 0;
+                for (const auto& el : it->second) {
+                    if (el == eilute) {
+                        count++;
+                    }
+                }
+                isved << setw(10) << count;
+            } else {
+                isved << setw(10) << "0";
+            }
+        }
+        isved << "\n";
     }
 
     isved.close();
