@@ -1,4 +1,4 @@
-# Žodžių analizės programa
+# Teksto analizės programa
 
 Ši programa skirta atlikti teksto analizę, naudojant C++ programavimo kalbą. Ji apdoroja pateiktą tekstinį failą ir išveda šiuos rezultatus į atskirus failus:
 
