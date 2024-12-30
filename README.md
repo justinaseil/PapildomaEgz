@@ -1,6 +1,6 @@
 # Teksto analizės programa
 
-Ši programa skirta atlikti teksto analizę, naudojant C++ programavimo kalbą. Ji apdoroja pateiktą tekstinį failą ir išveda šiuos rezultatus į atskirus failus:
+Ši programa skirta atlikti teksto analizę. Ji apdoroja pateiktą tekstinį failą ir išveda šiuos rezultatus į atskirus failus:
 
 1. **Žodžių dažnio analizė**: kiekvieno daugiau nei vieną kartą pasikartojusio žodžio dažnis.
 2. **Cross-reference lentelė**: kuriose teksto eilutėse daugiau nei vieną kartą pasikartoję žodžiai buvo paminėti.
