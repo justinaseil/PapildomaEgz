@@ -10,6 +10,35 @@ string Skyryba(const string& zodis) {
     return valymas;
 }
 
+vector<string> RastiURL(const string& failoPavadinimas) {
+    vector<string> urls;
+
+    ifstream failas(failoPavadinimas);
+    if (!failas) {
+        cerr << "Nepavyko atidaryti failo: " << failoPavadinimas << endl;
+        return urls;
+    }
+
+    stringstream buffer;
+    buffer << failas.rdbuf();
+    string tekstas = buffer.str();
+
+    regex url_pattern(R"((https?|ftp):\/\/[^\s\/$.?#].[^\s]*|www\.[^\s\/$.?#].[^\s]*)");
+
+    auto words_begin = sregex_iterator(tekstas.begin(), tekstas.end(), url_pattern);
+    auto words_end = sregex_iterator();
+
+    for (auto it = words_begin; it != words_end; ++it) {
+        string url = it->str();
+        cout << "Rastas URL: " << url << endl;
+        urls.push_back(url);
+    }
+
+    return urls;
+}
+
+
+
 Tekstas TekstoApdor(const string& ivedimoFailas) {
     ifstream ived(ivedimoFailas);
     Tekstas tekstas;
@@ -85,21 +114,18 @@ bool ZodziaiEilutese(const map<string, set<int>>& zodziuEilutes, const map<strin
     }
     isved << "\n";
 
-    for (int eilute = 1; eilute <= maxEilute; ++eilute) {
-        isved << setw(10) << left << eilute;
+    for (size_t i = 0; i < zodziai.size(); ++i) {
+        isved << setw(15) << setfill('-') << "" << setfill(' ');
+    }
+    isved << "\n";
 
+    for (int eilute = 1; eilute <= maxEilute; ++eilute) {
         for (const auto& zodis : zodziai) {
             auto it = zodziuEilutes.find(zodis);
             if (it != zodziuEilutes.end() && it->second.count(eilute) > 0) {
-                int count = 0;
-                for (const auto& el : it->second) {
-                    if (el == eilute) {
-                        count++;
-                    }
-                }
-                isved << setw(10) << count;
+                isved << setw(15) << "1";
             } else {
-                isved << setw(10) << "0";
+                isved << setw(15) << "0";
             }
         }
         isved << "\n";
@@ -108,6 +134,26 @@ bool ZodziaiEilutese(const map<string, set<int>>& zodziuEilutes, const map<strin
     isved.close();
     return true;
 }
+
+bool IšvediURLįFailą(const string& isvedimoFailas, const vector<string>& urls) {
+    ofstream isved(isvedimoFailas);
+    if (!isved) {
+        cerr << "Nepavyko sukurti failo '" << isvedimoFailas << "'!" << endl;
+        return false;
+    }
+
+    if (urls.empty()) {
+        isved << "Nera URL adresu tekste.\n";
+    } else {
+        for (const auto& url : urls) {
+            isved << url << "\n";
+        }
+    }
+
+    isved.close();
+    return true;
+}
+
 
 string getFailas() {
     string filas;
